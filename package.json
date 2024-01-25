@@ -1,7 +1,15 @@
 {
+  "name": "aliyun-cert-renew",
+  "version": "1.0.0",
+  "scripts": {
+    "deploy": "npx s deploy"
+  },
   "dependencies": {
     "@alicloud/cas20200407": "^1.0.11",
     "@alicloud/cdn20180510": "^3.1.2",
     "@alicloud/fc-open20210406": "^2.0.13"
+  },
+  "devDependencies": {
+    "@serverless-devs/s": "^3.0.0"
   }
 }

@@ -3,15 +3,14 @@ const $OpenApi = require('@alicloud/openapi-client')
 const $FC_Open20210406 = require('@alicloud/fc-open20210406')
 const $cas20200407 = require('@alicloud/cas20200407')
 
-class FunctionComputeCertRenew
-{
-    constructor (key_id, key_secret) {
+class FunctionComputeCertRenew {
+    constructor(key_id, key_secret) {
         this.client = this.createClient(key_id, key_secret)
 
         this.cas = this.createCASClient(key_id, key_secret)
     }
 
-    createCASClient (accessKeyId, accessKeySecret) {
+    createCASClient(accessKeyId, accessKeySecret) {
         let config = new $OpenApi.Config({
             accessKeyId: accessKeyId,
             accessKeySecret: accessKeySecret,
@@ -20,14 +19,14 @@ class FunctionComputeCertRenew
         return new $cas20200407.default(config);
     }
 
-    createClient (accessKeyId, accessKeySecret) {
-      let config = new $OpenApi.Config({
-        accessKeyId: accessKeyId,
-        accessKeySecret: accessKeySecret,
-      });
-      // Endpoint 请参考 https://api.aliyun.com/product/Cdn
-      config.endpoint = `1715373259194086.cn-hangzhou.fc.aliyuncs.com`;
-      return new $FC_Open20210406.default(config);
+    createClient(accessKeyId, accessKeySecret) {
+        let config = new $OpenApi.Config({
+            accessKeyId: accessKeyId,
+            accessKeySecret: accessKeySecret,
+        });
+        // Endpoint 请参考 https://api.aliyun.com/product/Cdn
+        config.endpoint = `1715373259194086.cn-hangzhou.fc.aliyuncs.com`;
+        return new $FC_Open20210406.default(config);
     }
 
     async checkDomainCert(domain) {
@@ -73,27 +72,27 @@ class FunctionComputeCertRenew
     }
 
     async deployCert(certName, domain, certificate, privateKey) {
-        let updateCustomDomainHeaders = new $FC_Open20210406.UpdateCustomDomainHeaders({ });
+        let updateCustomDomainHeaders = new $FC_Open20210406.UpdateCustomDomainHeaders({});
         let certConfig = new $FC_Open20210406.CertConfig({
-          certName,
-          certificate,
-          privateKey,
+            certName,
+            certificate,
+            privateKey,
         });
         let updateCustomDomainRequest = new $FC_Open20210406.UpdateCustomDomainRequest({
-          certConfig: certConfig,
+            certConfig: certConfig,
         });
-        let runtime = new $Util.RuntimeOptions({ });
+        let runtime = new $Util.RuntimeOptions({});
         try {
-          // 复制代码运行请自行打印 API 的返回值
-          const result = await this.client.updateCustomDomainWithOptions(domain, updateCustomDomainRequest, updateCustomDomainHeaders, runtime);
-          return result.body
+            // 复制代码运行请自行打印 API 的返回值
+            const result = await this.client.updateCustomDomainWithOptions(domain, updateCustomDomainRequest, updateCustomDomainHeaders, runtime);
+            return result.body
         } catch (error) {
-          // 错误 message
-          console.log(error.message);
-          // 诊断地址
-          console.log(error.data["Recommend"]);
-          $Util.default.assertAsString(error.message);
-        }    
+            // 错误 message
+            console.log(error.message);
+            // 诊断地址
+            console.log(error.data["Recommend"]);
+            $Util.default.assertAsString(error.message);
+        }
     }
 
     async checkOrderStatus(orderID, times = 0) {
@@ -113,8 +112,8 @@ class FunctionComputeCertRenew
     }
 
     async getFunctionComputeDomain(domain) {
-        let runtime = new $Util.RuntimeOptions({ });
-        let headers = { };
+        let runtime = new $Util.RuntimeOptions({});
+        let headers = {};
         try {
             // 复制代码运行请自行打印 API 的返回值
             const result = await this.client.getCustomDomainWithOptions(domain, headers, runtime);
@@ -142,7 +141,7 @@ class FunctionComputeCertRenew
         let describeCertificateStateRequest = new $cas20200407.DescribeCertificateStateRequest({
             orderId: orderID,
         });
-        let runtime = new $Util.RuntimeOptions({ });
+        let runtime = new $Util.RuntimeOptions({});
         try {
             // 复制代码运行请自行打印 API 的返回值
             const data = await this.cas.describeCertificateStateWithOptions(describeCertificateStateRequest, runtime);
@@ -155,7 +154,7 @@ class FunctionComputeCertRenew
             console.log(error.data["Recommend"]);
             $Util.default.assertAsString(error.message);
             return undefined
-        }    
+        }
     }
 
     async verifyOrder(orderID, status) {
@@ -172,7 +171,7 @@ class FunctionComputeCertRenew
             domain: "www.dnote.cn",
             validateType: "DNS"
         });
-        let runtime = new $Util.RuntimeOptions({ });
+        let runtime = new $Util.RuntimeOptions({});
         try {
             // 复制代码运行请自行打印 API 的返回值
             const data = await this.cas.createCertificateForPackageRequestWithOptions(createCertificateForPackageRequestRequest, runtime);
@@ -185,16 +184,16 @@ class FunctionComputeCertRenew
             console.log(error.data["Recommend"]);
             $Util.default.assertAsString(error.message);
             return undefined
-        }    
+        }
     }
 
     async writeValidateFile(domain, path, content) {
         console.info('write validate content to file: ', domain, path, content)
     }
 
-    async getCertDetail (id) {
+    async getCertDetail(id) {
         let getUserCertificateDetailRequest = new $cas20200407.GetUserCertificateDetailRequest({ certId: id });
-        let runtime = new $Util.RuntimeOptions({ });
+        let runtime = new $Util.RuntimeOptions({});
         try {
             // 复制代码运行请自行打印 API 的返回值
             const data = await this.cas.getUserCertificateDetailWithOptions(getUserCertificateDetailRequest, runtime);
@@ -207,16 +206,16 @@ class FunctionComputeCertRenew
             console.log(error.data["Recommend"]);
             $Util.default.assertAsString(error.message);
             return undefined
-        }    
+        }
     }
 
-    async getCertInfo (domain, name) {
+    async getCertInfo(domain, name) {
         console.info('获取域名证书信息:', domain)
         let listUserCertificateOrderRequest = new $cas20200407.ListUserCertificateOrderRequest({
             orderType: "CERT",
             keyword: domain,
         });
-        let runtime = new $Util.RuntimeOptions({ });
+        let runtime = new $Util.RuntimeOptions({});
         try {
             // 复制代码运行请自行打印 API 的返回值
             const data = await this.cas.listUserCertificateOrderWithOptions(listUserCertificateOrderRequest, runtime);
@@ -237,7 +236,7 @@ class FunctionComputeCertRenew
 
             return undefined
             // $Util.default.assertAsString(error.message);
-        }    
+        }
     }
 }
 

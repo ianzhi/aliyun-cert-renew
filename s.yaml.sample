@@ -1,0 +1,31 @@
+edition: 3.0.0
+name: fc3-example
+access: default
+resources:
+  fcDemo:
+    component: fc3
+    props:
+      region: cn-hangzhou
+      handler: src/index.handler
+      description: ''
+      timeout: 60
+      diskSize: 512
+      internetAccess: true
+      functionName: cert-auto-new
+      runtime: nodejs16
+      cpu: 0.05
+      memorySize: 128
+      environmentVariables:
+        TZ: Asia/Shanghai
+        ACCESS_KEY_ID:
+        ACCESS_KEY_SECRET:
+      code: ./
+      triggers:
+        - triggerConfig:
+            payload: ''
+            cronExpression: 0 30 15 * * *
+            enable: true
+          triggerName: default
+          description: ''
+          qualifier: LATEST
+          triggerType: timer
